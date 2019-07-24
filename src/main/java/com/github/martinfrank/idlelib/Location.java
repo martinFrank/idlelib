@@ -1,4 +1,5 @@
 package com.github.martinfrank.idlelib;
 
-public class Location {
+public interface Location {
+
 }

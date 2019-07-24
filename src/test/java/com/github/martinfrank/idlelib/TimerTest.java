@@ -12,7 +12,7 @@ public class TimerTest {
 
         Timer timer = new Timer();
         ResourceManager<TestResource> resourceManager = new ResourceManager<>(timer);
-        Site site = new Site(resourceManager);
+        Site<TestResource> site = new Site<>(resourceManager);
         TestTimedComponent testTimedComponent = new TestTimedComponent();
         Location location = new Location();
         site.add(testTimedComponent, location);
