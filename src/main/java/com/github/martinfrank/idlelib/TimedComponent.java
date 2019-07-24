@@ -28,10 +28,8 @@ public class TimedComponent<R extends Resource<? extends ResourceType>> {
     }
 
     void tick(TimeUnit timeUnit, long timeAmount) {
-        if (isRunning()) {
-            if (isTicked()) {
-                addTime(timeAmount, timeUnit);
-            }
+        if (isRunning() && isTicked()) {
+            addTime(timeAmount, timeUnit);
         } else {
             LOGGER.debug("tick - paused");
         }
