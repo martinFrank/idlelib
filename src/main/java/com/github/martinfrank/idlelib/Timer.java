@@ -23,7 +23,7 @@ public class Timer{
         return () -> {
             synchronized (timedComponents) {
                 LOGGER.debug("tick");
-                timedComponents.forEach(t -> t.tick(pollTimeUnit, pollTime));
+                timedComponents.forEach(t -> t.tick(pollTime, pollTimeUnit));
             }
         };
     }
