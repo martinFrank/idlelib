@@ -5,7 +5,7 @@ public class Timer {
 
     private final ResourceManager resourceManager;
 
-    public Timer (ResourceMananger resourceMananger){
+    public Timer (ResourceManager resourceMananger){
         this.resourceManager = resourceMananger;
     }
 
