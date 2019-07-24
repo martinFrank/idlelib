@@ -1,6 +1,6 @@
 package com.github.martinfrank.idlelib;
 
-public class TestResourceType extends ResourceType {
+public class TestResourceType implements ResourceType {
 
 
     public static final TestResourceType TIMBER = new TestResourceType("TIMBER");
