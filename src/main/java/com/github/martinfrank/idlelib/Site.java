@@ -12,17 +12,13 @@ public class Site<R extends Resource<? extends ResourceType> > {
     private final ResourceManager<R> resourceManager;
 
     private final Map<Location,TimedComponent<R>> components = new HashMap<>();
-    private final List<GeoPoint> sitePoints = new ArrayList<>();
+    private final List<GeoPoint> openSlots = new ArrayList<>();
 
 
-    public Site(ResourceManager<R> resourceManager){
+    public Site(ResourceManager<R> resourceManager, List<GeoPoint> openSlots) {
         this.resourceManager = resourceManager;
-        //FIXME: constructor with predefined site size
-        for (int dy = 0; dy < 10; dy++) {
-            for (int dx = 0; dx < 10; dx++) {
-                sitePoints.add(new GeoPoint(dx, dy));
-            }
-        }
+        this.openSlots.addAll(openSlots);
+
     }
 
     public void add(Location location, TimedComponent<R> timedComponent) {
@@ -31,7 +27,7 @@ public class Site<R extends Resource<? extends ResourceType> > {
     }
 
     public boolean isLocationAvailable(Location location){
-        List<GeoPoint> free = new ArrayList<>(sitePoints);
+        List<GeoPoint> free = new ArrayList<>(openSlots);
         for (Location occupied : components.keySet()) {
             for (GeoPoint point : occupied.getLocationPoints()) {
                 free.remove(point);

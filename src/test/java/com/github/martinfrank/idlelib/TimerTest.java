@@ -16,7 +16,7 @@ public class TimerTest {
 
         Timer timer = new Timer();
         ResourceManager<TestResource> resourceManager = new ResourceManager<>(timer);
-        Site<TestResource> site = new Site<>(resourceManager);
+        Site<TestResource> site = new Site<>(resourceManager, createOpenLocation());
         TimedComponent<TestResource> timedComponent =
                 new TimedComponent<>(750, TimeUnit.MILLISECONDS, calculateYield(), new Shape());
         timedComponent.setTicked(true);
@@ -47,7 +47,7 @@ public class TimerTest {
     public void testClickedYield() throws InterruptedException {
         Timer timer = new Timer();
         ResourceManager<TestResource> resourceManager = new ResourceManager<>(timer);
-        Site<TestResource> site = new Site<>(resourceManager);
+        Site<TestResource> site = new Site<>(resourceManager, createOpenLocation());
         TimedComponent<TestResource> timedComponent =
                 new TimedComponent<>(750, TimeUnit.MILLISECONDS, calculateYield(), new Shape());
         timedComponent.setTicked(false);
@@ -80,7 +80,7 @@ public class TimerTest {
 
         Timer timer = new Timer();
         ResourceManager<TestResource> resourceManager = new ResourceManager<>(timer);
-        Site<TestResource> site = new Site<>(resourceManager);
+        Site<TestResource> site = new Site<>(resourceManager, createOpenLocation());
         TimedComponent<TestResource> timedComponent =
                 new TimedComponent<>(750, TimeUnit.MILLISECONDS, calculateYield(), new Shape());
         timedComponent.setTicked(true);
@@ -101,7 +101,7 @@ public class TimerTest {
     public void testAutoYield() {
         Timer timer = new Timer();
         ResourceManager<TestResource> resourceManager = new ResourceManager<>(timer);
-        Site<TestResource> site = new Site<>(resourceManager);
+        Site<TestResource> site = new Site<>(resourceManager, createOpenLocation());
         TimedComponent<TestResource> timedComponent =
                 new TimedComponent<>(750, TimeUnit.MILLISECONDS, calculateYield(), new Shape());
         timedComponent.setAutoYield(true);
@@ -128,7 +128,7 @@ public class TimerTest {
     public void testProgress() {
         Timer timer = new Timer();
         ResourceManager<TestResource> resourceManager = new ResourceManager<>(timer);
-        Site<TestResource> site = new Site<>(resourceManager);
+        Site<TestResource> site = new Site<>(resourceManager, createOpenLocation());
         TimedComponent<TestResource> timedComponent =
                 new TimedComponent<>(1000, TimeUnit.MILLISECONDS, calculateYield(), new Shape());
         Location location = new Location(new GeoPoint(0, 0), timedComponent.getShape());
@@ -154,7 +154,7 @@ public class TimerTest {
 
         Timer timer = new Timer();
         ResourceManager<TestResource> resourceManager = new ResourceManager<>(timer);
-        Site<TestResource> site = new Site<>(resourceManager);
+        Site<TestResource> site = new Site<>(resourceManager, createOpenLocation());
         TimedComponent<TestResource> timedComponent =
                 new TimedComponent<>(750, TimeUnit.MILLISECONDS, calculateYield(), new Shape());
         timedComponent.setTicked(true);
@@ -196,4 +196,15 @@ public class TimerTest {
         resources.add(timber);
         return resources;
     }
+
+    private List<GeoPoint> createOpenLocation() {
+        List<GeoPoint> openSlots = new ArrayList<>();
+        for (int dy = 0; dy < 10; dy++) {
+            for (int dx = 0; dx < 10; dx++) {
+                openSlots.add(new GeoPoint(dx, dy));
+            }
+        }
+        return openSlots;
+    }
+
 }
