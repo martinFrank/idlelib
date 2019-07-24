@@ -1,22 +1,29 @@
 package com.github.martinfrank.idlelib;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
-public class Site {
+public class Site<R extends Resource<? extends ResourceType> > {
 
-    private final ResourceManager resourceManager;
-    private final List<TimedComponent> components = new ArrayList<>();
+    private final ResourceManager<R> resourceManager;
 
-    public Site(ResourceManager resourceManager){
+    private final Map<Location,TimedComponent<R>> components = new HashMap<>();
+
+
+    public Site(ResourceManager<R> resourceManager){
         this.resourceManager = resourceManager;
     }
 
-    public void add(TimedComponent timedComponent, Location location){
+    public void add(TimedComponent<R> timedComponent, Location location){
+        components.put(location, timedComponent);
         resourceManager.register(timedComponent);
     }
 
-    public void remove(TimedComponent timedComponent){
+    public boolean isLocationAvailable(Location location){
+        return true;
+    }
+
+    public void remove(TimedComponent<R> timedComponent){
         resourceManager.deregister(timedComponent);
 
     }
