@@ -14,12 +14,10 @@ public class TimedComponent<R extends Resource<? extends ResourceType>> {
     private final long maximum;
     private final List<R> yield;
     private final Shape shape;
-    private long current;
     private ResourceManager<R> resourceManager;
+    private long current;
     private boolean isPaused;
     private boolean isAutoYield;
-
-
     private boolean isTicked;
 
     public TimedComponent(long maximum, TimeUnit timeUnit, List<R> yield, Shape shape) {
@@ -109,5 +107,9 @@ public class TimedComponent<R extends Resource<? extends ResourceType>> {
 
     public void setAutoYield(boolean autoYield) {
         isAutoYield = autoYield;
+    }
+
+    public Progress getProgress() {
+        return new Progress(current, maximum, timeUnit);
     }
 }
