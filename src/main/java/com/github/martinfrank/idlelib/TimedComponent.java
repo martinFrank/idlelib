@@ -27,7 +27,7 @@ public class TimedComponent<R extends Resource<? extends ResourceType>> {
         this.shape = shape;
     }
 
-    void tick(TimeUnit timeUnit, long timeAmount) {
+    void tick(long timeAmount, TimeUnit timeUnit) {
         if (isRunning() && isTicked()) {
             addTime(timeAmount, timeUnit);
         } else {

@@ -25,7 +25,7 @@ public class Site<R extends Resource<? extends ResourceType> > {
         }
     }
 
-    public void add(TimedComponent<R> timedComponent, Location location){
+    public void add(Location location, TimedComponent<R> timedComponent) {
         components.put(location, timedComponent);
         resourceManager.register(timedComponent);
     }
@@ -45,8 +45,10 @@ public class Site<R extends Resource<? extends ResourceType> > {
         return true;
     }
 
-    public void remove(TimedComponent<R> timedComponent){
+    public void remove(Location location) {
+        TimedComponent<R> timedComponent = components.get(location);
         resourceManager.deregister(timedComponent);
+        components.remove(location);
 
     }
 

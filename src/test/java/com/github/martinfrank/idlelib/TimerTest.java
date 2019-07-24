@@ -22,7 +22,7 @@ public class TimerTest {
         timedComponent.setTicked(true);
         Location location = new Location(new GeoPoint(0, 0), timedComponent.getShape());
         Assert.assertTrue(site.isLocationAvailable(location));
-        site.add(timedComponent, location);
+        site.add(location, timedComponent);
         Assert.assertFalse(site.isLocationAvailable(location));
 
         Assert.assertEquals(0, resourceManager.getResource(TestResourceType.TIMBER), 0.1 );
@@ -34,6 +34,11 @@ public class TimerTest {
 
         Assert.assertFalse(timedComponent.isComplete());
         Assert.assertEquals(1, resourceManager.getResource(TestResourceType.TIMBER), 0.1 );
+
+        site.remove(location);
+        TimeUnit.SECONDS.sleep(2);
+        Assert.assertFalse(timedComponent.isComplete());
+        Assert.assertEquals(1, resourceManager.getResource(TestResourceType.TIMBER), 0.1);
 
         timer.stop();
     }
@@ -49,7 +54,7 @@ public class TimerTest {
 
         Location location = new Location(new GeoPoint(0, 0), timedComponent.getShape());
         Assert.assertTrue(site.isLocationAvailable(location));
-        site.add(timedComponent, location);
+        site.add(location, timedComponent);
         Assert.assertFalse(site.isLocationAvailable(location));
 
         Assert.assertEquals(0, resourceManager.getResource(TestResourceType.TIMBER), 0.1);
@@ -82,7 +87,7 @@ public class TimerTest {
         timedComponent.setAutoYield(true);
         Location location = new Location(new GeoPoint(0, 0), timedComponent.getShape());
         Assert.assertTrue(site.isLocationAvailable(location));
-        site.add(timedComponent, location);
+        site.add(location, timedComponent);
         Assert.assertFalse(site.isLocationAvailable(location));
 
         Assert.assertEquals(0, resourceManager.getResource(TestResourceType.TIMBER), 0.1);
@@ -103,7 +108,7 @@ public class TimerTest {
 
         Location location = new Location(new GeoPoint(0, 0), timedComponent.getShape());
         Assert.assertTrue(site.isLocationAvailable(location));
-        site.add(timedComponent, location);
+        site.add(location, timedComponent);
         Assert.assertFalse(site.isLocationAvailable(location));
 
         Assert.assertEquals(0, resourceManager.getResource(TestResourceType.TIMBER), 0.1);
@@ -128,7 +133,7 @@ public class TimerTest {
                 new TimedComponent<>(1000, TimeUnit.MILLISECONDS, calculateYield(), new Shape());
         Location location = new Location(new GeoPoint(0, 0), timedComponent.getShape());
         Assert.assertTrue(site.isLocationAvailable(location));
-        site.add(timedComponent, location);
+        site.add(location, timedComponent);
         Assert.assertFalse(site.isLocationAvailable(location));
 
         Assert.assertEquals(0, resourceManager.getResource(TestResourceType.TIMBER), 0.1);
@@ -140,6 +145,44 @@ public class TimerTest {
         timedComponent.click(clickValue);
         progress = timedComponent.getProgress();
         Assert.assertEquals(0.5, progress.getPercent(), 0.1);
+
+        timer.stop();
+    }
+
+    @Test
+    public void testPause() throws InterruptedException {
+
+        Timer timer = new Timer();
+        ResourceManager<TestResource> resourceManager = new ResourceManager<>(timer);
+        Site<TestResource> site = new Site<>(resourceManager);
+        TimedComponent<TestResource> timedComponent =
+                new TimedComponent<>(750, TimeUnit.MILLISECONDS, calculateYield(), new Shape());
+        timedComponent.setTicked(true);
+        Location location = new Location(new GeoPoint(0, 0), timedComponent.getShape());
+        Assert.assertTrue(site.isLocationAvailable(location));
+        site.add(location, timedComponent);
+        Assert.assertFalse(site.isLocationAvailable(location));
+
+        Assert.assertEquals(0, resourceManager.getResource(TestResourceType.TIMBER), 0.1);
+        timedComponent.setPause(true);
+        TimeUnit.SECONDS.sleep(1);
+        Assert.assertFalse(timedComponent.isComplete());
+        Assert.assertEquals(0, resourceManager.getResource(TestResourceType.TIMBER), 0.1);
+
+        timedComponent.setPause(false);
+        TimeUnit.SECONDS.sleep(1);
+        Assert.assertTrue(timedComponent.isComplete());
+        Assert.assertEquals(0, resourceManager.getResource(TestResourceType.TIMBER), 0.1);
+
+        timedComponent.yield();
+
+        Assert.assertFalse(timedComponent.isComplete());
+        Assert.assertEquals(1, resourceManager.getResource(TestResourceType.TIMBER), 0.1);
+
+        site.remove(location);
+        TimeUnit.SECONDS.sleep(2);
+        Assert.assertFalse(timedComponent.isComplete());
+        Assert.assertEquals(1, resourceManager.getResource(TestResourceType.TIMBER), 0.1);
 
         timer.stop();
     }
