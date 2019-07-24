@@ -1,0 +1,5 @@
+container:
+  image: maven:latest
+
+build_task:
+  build_script: mvn clean compile test sonar:sonar
