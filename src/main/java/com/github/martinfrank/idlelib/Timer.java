@@ -22,8 +22,8 @@ public class Timer{
     private Runnable createTickRunner() {
         return () -> {
             synchronized (timedComponents) {
-                LOGGER.debug("tick");
-                timedComponents.forEach(t -> t.tick(pollTime, pollTimeUnit));
+                LOGGER.debug("autoClick");
+                timedComponents.forEach(t -> t.autoClick(new ClickValue(pollTime, pollTimeUnit)));
             }
         };
     }

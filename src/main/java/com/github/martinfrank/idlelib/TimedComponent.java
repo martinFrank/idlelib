@@ -27,20 +27,22 @@ public class TimedComponent<R extends Resource<? extends ResourceType>> {
         this.shape = shape;
     }
 
-    void tick(long timeAmount, TimeUnit timeUnit) {
+    void autoClick(ClickValue clickValue) {
         if (isRunning() && isTicked()) {
-            addTime(timeAmount, timeUnit);
+            addTime(clickValue);
         } else {
-            LOGGER.debug("tick - paused");
+            LOGGER.debug("autoClick - paused");
         }
     }
 
     public void click(ClickValue clickValue) {
-        addTime(clickValue.getTimeAmount(), clickValue.getTimeUnit());
+        addTime(clickValue);
     }
 
 
-    private void addTime(long timeAmount, TimeUnit timeUnit) {
+    private void addTime(ClickValue clickValue) {
+        long timeAmount = clickValue.getTimeAmount();
+        TimeUnit timeUnit = clickValue.getTimeUnit();
         current = current + this.timeUnit.convert(timeAmount, timeUnit);
         LOGGER.debug("new value: {}/{} {}", current, maximum, timeUnit);
         if (isAutoYield() && isComplete()) {

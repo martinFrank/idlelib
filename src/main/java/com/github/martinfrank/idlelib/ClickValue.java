@@ -7,7 +7,7 @@ public class ClickValue {
     private final long timeAmount;
     private final TimeUnit timeUnit;
 
-    public ClickValue(int value, TimeUnit timeUnit) {
+    public ClickValue(long value, TimeUnit timeUnit) {
         this.timeAmount = value;
         this.timeUnit = timeUnit;
     }
