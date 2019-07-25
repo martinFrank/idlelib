@@ -14,7 +14,7 @@ public class TimedComponent<R extends Resource<? extends ResourceType>> {
     private final long maximum;
     private final List<R> yield;
     private final Shape shape;
-    private ResourceManager<R> resourceManager;
+    private ResourceManagerListener<R> resourceManagerListener;
     private long current;
     private boolean isPaused;
     private boolean isAutoYield;
@@ -60,12 +60,16 @@ public class TimedComponent<R extends Resource<? extends ResourceType>> {
     }
 
     public List<R> yield() {
-        if (isComplete()) {
-            resourceManager.notifyYield(yield);
+        if (isComplete() && hasStorage()) {
+            resourceManagerListener.notifyYield(yield);
             resetCounter();
             return yield;
         }
         return Collections.emptyList();
+    }
+
+    private boolean hasStorage() {
+        return resourceManagerListener.hasStorage(yield);
     }
 
 
@@ -81,12 +85,12 @@ public class TimedComponent<R extends Resource<? extends ResourceType>> {
         return isPaused;
     }
 
-    void setResourceManagerListener(ResourceManager<R> resourceManager) {
-        this.resourceManager = resourceManager;
+    void setResourceManagerListener(ResourceManagerListener<R> resourceManager) {
+        this.resourceManagerListener = resourceManager;
     }
 
     void removeResourceManagerListener() {
-        resourceManager = null;
+        resourceManagerListener = null;
     }
 
     public boolean isTicked() {

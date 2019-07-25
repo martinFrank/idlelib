@@ -7,6 +7,7 @@ import java.util.Map;
 public class ResourceManager<R extends Resource<? extends ResourceType> > implements ResourceManagerListener<R> {
 
     private final Timer timer;
+    private Map<Resource, List<Storage<R>>> resources2 = new HashMap<>();
     private Map<ResourceType,R> resources = new HashMap<>();
 
     public ResourceManager (Timer timer){
@@ -42,5 +43,10 @@ public class ResourceManager<R extends Resource<? extends ResourceType> > implem
                 inStack.setAmount(inStack.getAmount()+yieldedResource.getAmount());
             }
         }
+    }
+
+    @Override
+    public boolean hasStorage(List<R> yield) {
+        return false;
     }
 }

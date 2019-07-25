@@ -6,4 +6,5 @@ public interface ResourceManagerListener<R extends Resource<? extends ResourceTy
 
     void notifyYield(List<R> resources);
 
+    boolean hasStorage(List<R> yield);
 }
