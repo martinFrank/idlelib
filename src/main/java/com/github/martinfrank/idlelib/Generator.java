@@ -1,10 +1,5 @@
 package com.github.martinfrank.idlelib;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import java.util.Collections;
-import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 public class Generator<R> {
@@ -28,7 +23,7 @@ public class Generator<R> {
     }
 
     private void addTime(long timeAmount, TimeUnit timeUnit) {
-        if (!isPaused ) {
+        if (!isPaused) {
             progress.add(timeAmount, timeUnit);
             if (progress.isComplete() && generatorListener != null) {
                 generatorListener.notifyYield(this);
@@ -36,13 +31,13 @@ public class Generator<R> {
         }
     }
 
-    public R yield(){
+    public R yield() {
         R r = output.generateOutput(progress);
         progress.reset();
         return r;
     }
 
-    public Progress getProgress(){
+    public Progress getProgress() {
         return progress;
     }
 
