@@ -4,7 +4,7 @@ import java.util.concurrent.TimeUnit;
 
 public class Progress {
 
-    private final long current;
+    private long current;
     private final long maximum;
     private final TimeUnit timeUnit;
 
@@ -15,10 +15,33 @@ public class Progress {
     }
 
     public double getPercent() {
-        return (double) current / (double) maximum;
+        return  (double) current / (double) maximum;
     }
 
     public TimeUnit getTimeUnit() {
         return timeUnit;
+    }
+    public long getCurrent() {
+        return current;
+    }
+    public long getMaximum() {
+        return maximum;
+    }
+
+    void add(long timeAmount, TimeUnit timeUnit) {
+        current = current + this.timeUnit.convert(timeAmount, timeUnit);
+    }
+
+    public boolean isComplete() {
+        return current >= maximum;
+    }
+
+     void reset() {
+        current = 0;
+    }
+
+    @Override
+    public String toString() {
+        return ""+getCurrent()+"/"+getMaximum()+" "+getTimeUnit();
     }
 }
