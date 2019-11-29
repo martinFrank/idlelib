@@ -5,7 +5,7 @@ public class TestGeneratorListener implements GeneratorListener {
     private boolean hasBeenNotified = false;
 
     @Override
-    public void notifyYield(Generator output) {
+    public void notifyYield(Generator generator) {
         hasBeenNotified = true;
         System.out.println("hei - i am ready to yield...");
     }

@@ -8,6 +8,7 @@ public class Generator<R> {
     private final Output<R> output;
     private boolean isPaused;
     private final Progress progress;
+    private boolean isListenerNotified = false;
 
     public Generator(long maximum, TimeUnit timeUnit, Output<R> output) {
         progress = new Progress(0, maximum, timeUnit);
@@ -25,15 +26,21 @@ public class Generator<R> {
     private void addTime(long timeAmount, TimeUnit timeUnit) {
         if (!isPaused) {
             progress.add(timeAmount, timeUnit);
-            if (progress.isComplete() && generatorListener != null) {
-                generatorListener.notifyYield(this);
+            if (isNotificationRequired()) {
+                notifyListener();
             }
         }
+    }
+
+    private void notifyListener() {
+        generatorListener.notifyYield(this);
+        isListenerNotified = true;
     }
 
     public R yield() {
         R r = output.generateOutput(progress);
         progress.reset();
+        isListenerNotified = false;
         return r;
     }
 
@@ -49,12 +56,16 @@ public class Generator<R> {
         this.isPaused = isPaused;
     }
 
-    void setGeneratorListenerListener(GeneratorListener generatorListener) {
+    public void setGeneratorListener(GeneratorListener generatorListener) {
         this.generatorListener = generatorListener;
     }
 
-    void removeGeneratorListenerListener() {
+    public void removeGeneratorListener() {
         generatorListener = null;
     }
 
+    private boolean isNotificationRequired() {
+        return progress.isComplete() && generatorListener != null && !isListenerNotified;
+    }
 }
+

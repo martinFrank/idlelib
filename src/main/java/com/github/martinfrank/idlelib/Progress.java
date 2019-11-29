@@ -15,7 +15,15 @@ public class Progress {
     }
 
     public double getPercent() {
-        return  (double) current / (double) maximum;
+        return getPercent(false);
+    }
+
+    public double getPercent(boolean hasLimit) {
+        if (hasLimit) {
+            return Math.min(100, (double) current / (double) maximum);
+        } else {
+            return (double) current / (double) maximum;
+        }
     }
 
     public TimeUnit getTimeUnit() {
